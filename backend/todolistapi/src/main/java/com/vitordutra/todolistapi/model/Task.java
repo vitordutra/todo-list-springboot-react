@@ -7,12 +7,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tasks")
-@Setter
 @Getter
+@Setter
 @ToString
 public class Task {
     @Id
@@ -26,13 +26,13 @@ public class Task {
     private String description;
 
     @Column(nullable = false)
-    private Date deadLine;
+    private LocalDateTime deadLine;
 
     @CreationTimestamp
     @Column(name="created_at", nullable = false, updatable = false)
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name="updated_at", nullable = false, updatable = false)
-    private Date updatedAt;
+    @Column(name="updated_at", nullable = false, updatable = true)
+    private LocalDateTime updatedAt;
 }

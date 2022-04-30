@@ -2,7 +2,7 @@ package com.vitordutra.todolistapi.service;
 
 import com.vitordutra.todolistapi.model.Task;
 import com.vitordutra.todolistapi.repository.TaskRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class TaskService {
 
     @Autowired
