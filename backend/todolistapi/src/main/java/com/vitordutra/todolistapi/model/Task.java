@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tasks")
-@Setter
 @Getter
+@Setter
 @ToString
 public class Task {
     @Id
@@ -33,6 +33,6 @@ public class Task {
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name="updated_at", nullable = false, updatable = false)
+    @Column(name="updated_at", nullable = false, updatable = true)
     private LocalDateTime updatedAt;
 }

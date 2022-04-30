@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TaskService {
 
+    @Autowired
     private TaskRepository taskRepository;
 
     public Task createTask(Task task) {
