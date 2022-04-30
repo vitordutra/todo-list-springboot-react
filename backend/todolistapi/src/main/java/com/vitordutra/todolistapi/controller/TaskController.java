@@ -4,6 +4,7 @@ import com.vitordutra.todolistapi.model.Task;
 import com.vitordutra.todolistapi.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,12 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     public List<Task> getAllTasks() {
         return taskService.listAllTasks();
+    }
+
+    @GetMapping("/tasks/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Task> getTaskById(@PathVariable(value = "id") Long id) {
+        return taskService.findTaskById(id);
     }
 
 
