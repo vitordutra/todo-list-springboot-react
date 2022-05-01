@@ -35,7 +35,7 @@ public class TaskService {
                 .map(taskToUpdate -> {
                     taskToUpdate.setTitle(task.getTitle());
                     taskToUpdate.setDescription(task.getDescription());
-                    taskToUpdate.setDeadLine(task.getDeadLine());
+                    taskToUpdate.setDone(task.isDone());
                     Task updatedTask = taskRepository.save(taskToUpdate);
                     return ResponseEntity.ok().body(updatedTask);
                 }).orElse(ResponseEntity.notFound().build());
