@@ -80,9 +80,19 @@ function App() {
         </Typography>
 
         <Stack spacing={2}>
-          <TextField label='Título'></TextField>
-          <TextField label='Descrição'></TextField>
-          <Fab color='primary' aria-label='add' variant='extended'>
+          <TextField
+            label='Título'
+            value={title}
+            onChange={event => setTitle(event.target.value)}></TextField>
+          <TextField
+            label='Descrição'
+            value={description}
+            onChange={event => setDescription(event.target.value)}></TextField>
+          <Fab
+            color='primary'
+            aria-label='add'
+            variant='extended'
+            type='submit'>
             <AddIcon />
             Salvar Tarefa
           </Fab>
@@ -100,17 +110,17 @@ function App() {
             </Fab>
           </Stack>
         </Box>
-
-        <TaskList>
-          {tasks?.map(task => (
-            <TaskItem
-              key={task.id}
-              title={task.title}
-              description={task.description}
-            />
-          ))}
-        </TaskList>
       </Box>
+
+      <TaskList>
+        {tasks?.map(task => (
+          <TaskItem
+            key={task.id}
+            title={task.title}
+            description={task.description}
+          />
+        ))}
+      </TaskList>
     </Container>
   );
 }
