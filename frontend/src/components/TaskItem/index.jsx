@@ -27,14 +27,14 @@ function TaskItem(props) {
           direction='row'
           alignItems='center'
           justifyContent='space-between'>
-          <IconButton onClick={props.onEditClick}>
+          <IconButton onClick={props.onEditButtonClick}>
             <EditIcon />
           </IconButton>
-          <IconButton onClick={props.onDeleteClick}>
+          <IconButton onClick={props.onDeleteButtonClick}>
             <DeleteIcon />
           </IconButton>
           <IconButton>
-            <DoneIcon onClick={props.onCompletionClick} />
+            <DoneIcon onClick={props.onCompletionButtonClick} />
           </IconButton>
         </Stack>
       </Stack>

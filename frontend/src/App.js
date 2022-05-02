@@ -141,7 +141,7 @@ function App() {
             key={task.id}
             title={task.title}
             description={task.description}
-            onEditClick={() => fillStates(task)}
+            onEditButtonClick={() => fillStates(task)}
           />
         ))}
       </TaskList>
