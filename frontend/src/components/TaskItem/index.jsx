@@ -14,6 +14,15 @@ function TaskItem(props) {
   return (
     <>
       <Stack
+        style={
+          props.isTaskDone
+            ? {
+                backgroundColor: '#81c784',
+
+                borderRadius: 2,
+              }
+            : { backgroundColor: 'white', borderRadius: 2 }
+        }
         direction='row'
         spacing={2}
         alignItems='center'
@@ -33,8 +42,8 @@ function TaskItem(props) {
           <IconButton onClick={props.onDeleteButtonClick}>
             <DeleteIcon />
           </IconButton>
-          <IconButton>
-            <DoneIcon onClick={props.onCompletionButtonClick} />
+          <IconButton onClick={props.onCompletionButtonClick}>
+            <DoneIcon />
           </IconButton>
         </Stack>
       </Stack>

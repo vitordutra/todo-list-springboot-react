@@ -96,7 +96,23 @@ function App() {
     }
   }
 
-  async function handleTaskCompletion(id, done) {}
+  async function handleTaskCompletion({ id, title, description, done }) {
+    console.log(id, done);
+    const body = {
+      title,
+      description,
+      done: !done,
+    };
+    console.log(body);
+
+    try {
+      await api.put(`tasks/${id}`, body);
+      handleGetTasks();
+    } catch (error) {
+      console.log(error);
+      alert('Erro ao Atualizar o Status da Tarefa');
+    }
+  }
 
   return (
     <Container maxWidth='sm'>
@@ -146,11 +162,13 @@ function App() {
       <TaskList>
         {tasks?.map(task => (
           <TaskItem
+            isTaskDone={task.done}
             key={task.id}
             title={task.title}
             description={task.description}
             onEditButtonClick={() => fillStates(task)}
             onDeleteButtonClick={() => handleDeleteTask(task.id)}
+            onCompletionButtonClick={() => handleTaskCompletion(task)}
           />
         ))}
       </TaskList>
