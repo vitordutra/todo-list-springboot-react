@@ -86,7 +86,15 @@ function App() {
     }
   }
 
-  async function handleDeleteTask(id) {}
+  async function handleDeleteTask(id) {
+    try {
+      await api.delete(`tasks/${id}`);
+      alert('Tarefa deletada com suceso');
+      handleGetTasks();
+    } catch (error) {
+      alert('Erro ao deletar tarefa');
+    }
+  }
 
   async function handleTaskCompletion(id, done) {}
 
@@ -142,6 +150,7 @@ function App() {
             title={task.title}
             description={task.description}
             onEditButtonClick={() => fillStates(task)}
+            onDeleteButtonClick={() => handleDeleteTask(task.id)}
           />
         ))}
       </TaskList>
