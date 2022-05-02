@@ -21,16 +21,6 @@ function App() {
     handleGetTasks();
   }, []);
 
-  async function handleGetTasks() {
-    try {
-      const taskData = await api.get('tasks');
-      const taskList = await taskData.data;
-      setTasks(taskList);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   function clearStates() {
     setId('');
     setTitle('');
@@ -41,6 +31,16 @@ function App() {
     setId(task.id);
     setTitle(task.title);
     setDescription(task.description);
+  }
+
+  async function handleGetTasks() {
+    try {
+      const taskData = await api.get('tasks');
+      const taskList = await taskData.data;
+      setTasks(taskList);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async function handleAddTask(event) {
@@ -67,6 +67,29 @@ function App() {
     }
   }
 
+  async function handleEditTask(event) {
+    event.preventDefault();
+
+    try {
+      const body = {
+        title,
+        description,
+      };
+
+      await api.put(`tasks/${id}`, body);
+      alert('Tarefa alterada com sucesso');
+      clearStates();
+      handleGetTasks();
+    } catch (error) {
+      alert('Erro ao alterar tarefa');
+      console.log(error);
+    }
+  }
+
+  async function handleDeleteTask(id) {}
+
+  async function handleTaskCompletion(id, done) {}
+
   return (
     <Container maxWidth='sm'>
       <Box
@@ -74,7 +97,7 @@ function App() {
         component='form'
         noValidate
         autoComplete='off'
-        onSubmit={handleAddTask}>
+        onSubmit={id ? handleEditTask : handleAddTask}>
         <Typography variant='h4' component='h1' gutterBottom>
           Todo List - Desafio CI&T
         </Typography>
@@ -94,7 +117,7 @@ function App() {
             variant='extended'
             type='submit'>
             <AddIcon />
-            Salvar Tarefa
+            {id ? 'Alterar' : 'Salvar'} Tarefa
           </Fab>
         </Stack>
 
@@ -118,6 +141,7 @@ function App() {
             key={task.id}
             title={task.title}
             description={task.description}
+            onEditClick={() => fillStates(task)}
           />
         ))}
       </TaskList>
