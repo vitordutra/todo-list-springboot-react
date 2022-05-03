@@ -27,7 +27,7 @@ function TaskItem(props) {
         spacing={2}
         alignItems='center'
         justifyContent='space-between'>
-        <Checkbox />
+        <Checkbox checked={props.checked} onChange={props.onChange} />
         <Stack alignItems='center'>
           <Typography>{props.title}</Typography>
           <Typography variant='caption'>{props.description}</Typography>

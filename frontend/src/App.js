@@ -5,13 +5,14 @@ import AddIcon from '@mui/icons-material/Add';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import SelectAllIcon from '@mui/icons-material/SelectAll';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import api from './services/api';
 import TaskList from './components/TaskList';
 import TaskItem from './components/TaskItem';
 
 function App() {
   const [tasks, setTasks] = useState([]);
+  const [checkedTasks, setCheckedTasks] = useState([]);
 
   const [id, setId] = useState('');
   const [title, setTitle] = useState('');
@@ -25,6 +26,7 @@ function App() {
     setId('');
     setTitle('');
     setDescription('');
+    setCheckedTasks([]);
   }
 
   function fillStates(task) {
@@ -61,8 +63,8 @@ function App() {
         clearStates();
         handleGetTasks();
       } catch (error) {
-        console.log(error);
         alert('Erro ao adicionar Tarefa');
+        console.log(error);
       }
     }
   }
@@ -89,29 +91,84 @@ function App() {
   async function handleDeleteTask(id) {
     try {
       await api.delete(`tasks/${id}`);
-      alert('Tarefa deletada com suceso');
+      alert('Tarefa deletada com sucesso');
       handleGetTasks();
     } catch (error) {
       alert('Erro ao deletar tarefa');
     }
   }
 
-  async function handleTaskCompletion({ id, title, description, done }) {
-    console.log(id, done);
+  async function handleSingleTaskCompletion({ id, title, description, done }) {
     const body = {
       title,
       description,
-      done: !done,
+      done: true,
     };
-    console.log(body);
 
     try {
       await api.put(`tasks/${id}`, body);
       handleGetTasks();
     } catch (error) {
-      console.log(error);
       alert('Erro ao Atualizar o Status da Tarefa');
     }
+  }
+
+  async function handleSingleTaskReset({ id, title, description }) {
+    const body = {
+      title,
+      description,
+      done: false,
+    };
+
+    try {
+      await api.put(`tasks/${id}`, body);
+      handleGetTasks();
+    } catch (error) {
+      alert('Erro ao Atualizar o Status da Tarefa');
+    }
+  }
+  async function handleSingleTaskToggle({ id, title, description, done }) {
+    const body = {
+      title,
+      description,
+      done: !done,
+    };
+
+    try {
+      await api.put(`tasks/${id}`, body);
+      handleGetTasks();
+    } catch (error) {
+      alert('Erro ao Atualizar o Status da Tarefa');
+    }
+  }
+
+  function handleMultipleTasksCompletion() {
+    const tasksToBeCompleted = tasks.filter(task =>
+      checkedTasks.includes(task.id)
+    );
+    tasksToBeCompleted.forEach(taskToBeCompleted => {
+      handleSingleTaskCompletion(taskToBeCompleted);
+    });
+  }
+
+  function handleMultipleTasksReset() {
+    tasks.forEach(task => handleSingleTaskReset(task));
+  }
+
+  function handleChange(event, task) {
+    const { checked } = event.target;
+
+    if (!checked && checkedTasks.includes(task.id)) {
+      const filteredCheckedTasks = checkedTasks.filter(id => id !== task.id);
+      setCheckedTasks(filteredCheckedTasks);
+    } else if (checked) {
+      setCheckedTasks([...checkedTasks, task.id]);
+    }
+  }
+
+  function handleSelectAll() {
+    const taskIds = tasks.map(task => task.id);
+    setCheckedTasks(taskIds);
   }
 
   return (
@@ -147,13 +204,29 @@ function App() {
 
         <Box sx={{ marginTop: 2 }}>
           <Stack spacing={2} direction='row' justifyContent='space-around'>
-            <Fab color='primary' aria-label='add' variant='extended'>
+            <Fab
+              color='primary'
+              aria-label='add'
+              variant='extended'
+              onClick={handleSelectAll}>
               <SelectAllIcon />
               Selecionar Todos
             </Fab>
-            <Fab color='primary' aria-label='add' variant='extended'>
+            <Fab
+              color='primary'
+              aria-label='add'
+              variant='extended'
+              onClick={handleMultipleTasksCompletion}>
               <DoneAllIcon />
               Finalizar Selecionados
+            </Fab>
+            <Fab
+              color='primary'
+              aria-label='add'
+              variant='extended'
+              onClick={handleMultipleTasksReset}>
+              <DoneAllIcon />
+              Resetar Selecionados
             </Fab>
           </Stack>
         </Box>
@@ -168,7 +241,9 @@ function App() {
             description={task.description}
             onEditButtonClick={() => fillStates(task)}
             onDeleteButtonClick={() => handleDeleteTask(task.id)}
-            onCompletionButtonClick={() => handleTaskCompletion(task)}
+            onCompletionButtonClick={() => handleSingleTaskToggle(task)}
+            onChange={event => handleChange(event, task)}
+            checked={checkedTasks.includes(task.id)}
           />
         ))}
       </TaskList>
