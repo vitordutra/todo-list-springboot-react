@@ -2,7 +2,7 @@
 
 ## Backend
 
-A task management REST API made with Spring Boot using the MVC pattern with CRUD functionalities
+A Todolist REST API made with Spring Boot using the MVC pattern with CRUD functionalities
 
 ### Techs
 
@@ -76,6 +76,8 @@ docker-compose up -d
 ```
 
 ## Frontend
+
+A Todolist app with backend integration via REST API
 
 ### Techs
 
