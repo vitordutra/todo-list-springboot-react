@@ -4,6 +4,7 @@ import { Box } from '@mui/system';
 import AddIcon from '@mui/icons-material/Add';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import SelectAllIcon from '@mui/icons-material/SelectAll';
+import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
 
 import { useEffect, useRef, useState } from 'react';
 import api from './services/api';
@@ -225,7 +226,7 @@ function App() {
               aria-label='add'
               variant='extended'
               onClick={handleMultipleTasksReset}>
-              <DoneAllIcon />
+              <SettingsBackupRestoreIcon />
               Resetar Selecionados
             </Fab>
           </Stack>
